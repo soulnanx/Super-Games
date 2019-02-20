@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="utf-8"?>
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+                                             xmlns:app="http://schemas.android.com/apk/res-auto"
+                                             xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+                                             android:layout_height="match_parent">
+
+    <ImageView
+            android:layout_width="380dp"
+            android:layout_height="248dp" app:srcCompat="@drawable/img_unavailable"
+            android:id="@+id/activity_games_detail_image"
+            android:scaleType="centerCrop" app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" app:layout_constraintEnd_toEndOf="parent"
+    />
+    <TextView
+            android:text="Title"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/activity_games_detail_title_txt"
+            app:layout_constraintTop_toBottomOf="@+id/textView2"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp" android:textSize="24sp"/>
+    <TextView
+            android:text="titulo"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView2"
+            app:layout_constraintStart_toStartOf="parent" android:layout_marginLeft="16dp"
+            android:layout_marginStart="16dp" android:textSize="10sp" android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/activity_games_detail_image"/>
+    <TextView
+            android:text="visualiza;ões"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView3" android:textSize="10sp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/activity_games_detail_image" android:layout_marginEnd="8dp"
+            app:layout_constraintEnd_toEndOf="parent" android:layout_marginRight="8dp"
+            app:layout_constraintStart_toEndOf="@+id/textView2" android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp" app:layout_constraintHorizontal_bias="0.72"/>
+    <TextView
+            android:text="300000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/activity_games_detail_viewers_txt"
+            app:layout_constraintTop_toBottomOf="@+id/textView3" android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/textView3" android:layout_marginLeft="8dp"
+            android:layout_marginStart="8dp"/>
+    <TextView
+            android:text="canais"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textView5" android:textSize="10sp"
+            android:layout_marginEnd="8dp" app:layout_constraintEnd_toEndOf="parent"
+            android:layout_marginRight="8dp"
+            android:layout_marginTop="8dp"
+            app:layout_constraintTop_toBottomOf="@+id/activity_games_detail_image"
+            app:layout_constraintStart_toEndOf="@+id/textView3" android:layout_marginStart="8dp"
+            android:layout_marginLeft="8dp"/>
+    <TextView
+            android:text="90000"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/activity_games_detail_channels_txt"
+            app:layout_constraintTop_toBottomOf="@+id/textView5" android:textSize="18sp"
+            app:layout_constraintStart_toStartOf="@+id/textView5"/>
+</android.support.constraint.ConstraintLayout>

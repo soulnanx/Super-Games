@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Super Games</string>
+    <string name="offline_results">Você está não está conectado, exibindo resultados offline!</string>
+</resources>
