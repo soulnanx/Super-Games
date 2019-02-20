@@ -15,6 +15,8 @@ class GamesDetailActivity : AppCompatActivity() {
     private lateinit var viewModel : GamesViewModel
 
     companion object {
+        const val ITEM: String = "item"
+
         fun newIntent(context: Context) : Intent {
             return Intent(context, GamesDetailActivity::class.java)
         }
@@ -28,16 +30,20 @@ class GamesDetailActivity : AppCompatActivity() {
 
     private fun init(){
         viewModel = ViewModelProviders.of(this).get(GamesViewModel::class.java)
-        loadGame(viewModel.selectedGame)
+        loadGame()
     }
 
-    private fun loadGame(selectedGame: Item) {
-        activity_games_detail_title_txt.text = selectedGame.game.name
-        activity_games_detail_viewers_txt.text = selectedGame.viewers.toString()
-        activity_games_detail_channels_txt.text = selectedGame.channels.toString()
-        Glide.with(this@GamesDetailActivity)
-            .load(selectedGame.game.logo?.large)
-            .into(activity_games_detail_image)
+    private fun loadGame() {
+        val itemGame = intent.extras.getSerializable(ITEM) as Item
+        setValues(itemGame)
+    }
 
+    private fun setValues(itemGame: Item) {
+        activity_games_detail_title_txt.text = itemGame.game.name
+        activity_games_detail_viewers_txt.text = itemGame.viewers.toString()
+        activity_games_detail_channels_txt.text = itemGame.channels.toString()
+        Glide.with(this@GamesDetailActivity)
+            .load(itemGame.game.logo?.large)
+            .into(activity_games_detail_image)
     }
 }

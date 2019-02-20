@@ -7,14 +7,17 @@ import br.com.hivecode.supergames.data.api.response.TopGamesResponse
 
 class GamesViewModel : ViewModel() {
 
-    lateinit var selectedGame : Item
-
     fun getTopGames(offset : Int = 0,
                     callbackOnline: (TopGamesResponse) -> Unit,
                     callbackOffline: (MutableList<Item>) -> Unit,
-                    callbackFailure: (String) -> Unit){
+                    callbackOfflineAndHasNoCache: (Unit) -> Unit,
+                    callbackFailure: (Exception) -> Unit){
 
-        GameRepository().getTopGames(offset, callbackOnline, callbackOffline, callbackFailure)
+        GameRepository().getTopGames(offset,
+                                    callbackOnline,
+                                    callbackOffline,
+                                    callbackOfflineAndHasNoCache,
+                                    callbackFailure)
 
     }
 }

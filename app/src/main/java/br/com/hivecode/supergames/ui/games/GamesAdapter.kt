@@ -1,20 +1,23 @@
 package br.com.hivecode.supergames.ui.games
 
 import android.content.Context
+import android.os.Handler
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.view.animation.AnimationUtils
 import br.com.hivecode.supergames.R
 import br.com.hivecode.supergames.data.entity.Game
 import br.com.hivecode.supergames.data.entity.Item
 import br.com.hivecode.supergames.data.entity.Logo
 import com.bumptech.glide.Glide
+import kotlinx.android.synthetic.main.activity_games.*
 import kotlinx.android.synthetic.main.item_game.view.*
 
 class GamesAdapter (private val context: Context,
                     private val items: MutableList<Item>,
-                    private val gameClicked: (itemGame : Item) -> Unit) : RecyclerView.Adapter<GamesAdapter.ViewHolder>() {
+                    private val gameClicked: (Item) -> Unit) : RecyclerView.Adapter<GamesAdapter.ViewHolder>() {
     override fun onCreateViewHolder(parent: ViewGroup, p1: Int): ViewHolder {
         val view = LayoutInflater
             .from(context)
@@ -27,7 +30,10 @@ class GamesAdapter (private val context: Context,
         loadImage(holder, item.game?.logo)
 
         holder!!.card.setOnClickListener {
-            gameClicked(item)
+            val animation = AnimationUtils.loadAnimation(context, R.anim.scale_effect)
+            it.startAnimation(animation)
+            Handler().postDelayed({gameClicked(item)}, 300)
+
         }
     }
 

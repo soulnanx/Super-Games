@@ -1,4 +1,4 @@
-package br.com.hivecode.supergames.data.dao
+package br.com.hivecode.supergames.data.dao.conf
 
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase
@@ -21,13 +21,16 @@ abstract class AppDatabase constructor() : RoomDatabase() {
         @Synchronized
         internal fun getInstance(context: Context): AppDatabase? {
             if (instance == null) {
-                instance = create(context)
+                instance =
+                        create(context)
             }
             return instance
         }
 
         private fun create(context: Context): AppDatabase {
-            return Room.databaseBuilder(context, AppDatabase::class.java, DB_NAME)
+            return Room.databaseBuilder(context, AppDatabase::class.java,
+                DB_NAME
+            )
                 .build()
         }
 

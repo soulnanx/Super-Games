@@ -1,4 +1,4 @@
-package br.com.hivecode.supergames.data.dao
+package br.com.hivecode.supergames.data.dao.conf
 
 import android.arch.persistence.room.TypeConverter
 import br.com.hivecode.supergames.data.entity.Game

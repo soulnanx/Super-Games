@@ -7,11 +7,15 @@ import android.os.Bundle
 import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.GridLayoutManager
 import android.support.v7.widget.RecyclerView
+import android.view.View
+import android.view.animation.AnimationUtils
 import android.widget.Toast
 import br.com.hivecode.supergames.R
 import br.com.hivecode.supergames.data.entity.Item
 import br.com.hivecode.supergames.data.api.response.TopGamesResponse
+import br.com.hivecode.supergames.data.entity.Game
 import kotlinx.android.synthetic.main.activity_games.*
+import java.lang.Exception
 
 class GamesActivity : AppCompatActivity() {
 
@@ -27,14 +31,39 @@ class GamesActivity : AppCompatActivity() {
 
     private fun init() {
         viewModel = ViewModelProviders.of(this).get(GamesViewModel::class.java)
-        customLayoutManager = GridLayoutManager(this@GamesActivity, 2)
-        customAdapter = GamesAdapter(this@GamesActivity, mutableListOf()) { itemGame -> viewModel.selectedGame = itemGame}
+        setRecyclerView()
         loadGames()
         setEvents()
     }
 
+    private fun setRecyclerView() {
+        customLayoutManager = GridLayoutManager(this@GamesActivity, 2)
+        customAdapter =
+                GamesAdapter(this@GamesActivity, mutableListOf()) { itemGame -> navigateToDetail(itemGame) }
+        with(activity_games_rv) {
+            adapter = customAdapter
+            layoutManager = customLayoutManager
+        }
+
+    }
+
+    private fun navigateToDetail(itemGame: Item) {
+        val intent = GamesDetailActivity.newIntent(this@GamesActivity)
+        val bundle = Bundle()
+        bundle.putSerializable(GamesDetailActivity.ITEM, itemGame)
+        intent.putExtras(bundle)
+        startActivity(intent)
+    }
+
     private fun setEvents() {
         activity_games_swipe.setOnRefreshListener { onSwipeList() }
+        activity_games_content_try_again.setOnClickListener { onClickTryAgain() }
+    }
+
+    private fun onClickTryAgain() {
+        val animation = AnimationUtils.loadAnimation(this, R.anim.scale_effect)
+        activity_games_content_try_again.startAnimation(animation)
+        loadGames(0)
     }
 
     private fun onSwipeList() {
@@ -49,25 +78,43 @@ class GamesActivity : AppCompatActivity() {
             viewModel.getTopGames(offset,
                 ::setOnlineList,
                 ::setOfflineList,
+                ::hasNoCache,
                 ::showError)
         } else {
             viewModel.getTopGames(offset,
                 {it -> addMoreItems(it.top)},
                 ::setOfflineList,
+                ::hasNoCache,
                 ::showError)
         }
     }
 
-    private fun showError(messageError: String) {
-        showMessageError(messageError)    }
+    private fun hasNoCache( unit : Unit) {
+        showTryAgain()
+    }
+
+    private fun showTryAgain() {
+        activity_games_rv.visibility = View.GONE
+        activity_games_content_no_internet.visibility = View.VISIBLE
+    }
+
+    private fun showList() {
+        activity_games_rv.visibility = View.VISIBLE
+        activity_games_content_no_internet.visibility = View.GONE
+    }
+
+    private fun showError(ex: Exception) {
+        showMessageError("Alguma coisa deu muito errado =(")    }
 
     private fun setOfflineList(games: MutableList<Item>) {
+        showList()
         customAdapter.clear()
         showMessageError(getString(R.string.offline_results))
         setList(games, true)
     }
 
     private fun setOnlineList(topGamesResponse: TopGamesResponse) {
+        showList()
         setList(topGamesResponse.top, false)
     }
 
@@ -81,18 +128,13 @@ class GamesActivity : AppCompatActivity() {
     }
 
     private fun setList(games: MutableList<Item>, isFromCache: Boolean) {
-        with(activity_games_rv) {
-            adapter = customAdapter
-            layoutManager = customLayoutManager
-            if (isFromCache){
-                customAdapter.update(games)
-                clearOnScrollListeners()
-            } else {
-                customAdapter.update(games)
-                addOnScrollListener(setupOnScrollListener(games))
-            }
-
+        if (isFromCache){
+            activity_games_rv.clearOnScrollListeners()
+        } else {
+            activity_games_rv.addOnScrollListener(setupOnScrollListener(games))
         }
+        customAdapter.update(games)
+
         activity_games_swipe.isRefreshing = false
     }
 
@@ -100,7 +142,7 @@ class GamesActivity : AppCompatActivity() {
         return OnScrollListener(
             customLayoutManager,
             customAdapter,
-            games,
+            games.size,
             ::loadGames
         )
     }
@@ -113,7 +155,7 @@ class GamesActivity : AppCompatActivity() {
 
 class OnScrollListener(var layoutManager: GridLayoutManager,
                        val adapter: GamesAdapter,
-                       val dataList: MutableList<Item>,
+                       val itemsCount: Int,
                        val loadMore: (Int) -> Unit) : RecyclerView.OnScrollListener() {
     var previousTotal = 0
     var loading = true
@@ -137,10 +179,14 @@ class OnScrollListener(var layoutManager: GridLayoutManager,
         }
 
         if (!loading && (totalItemCount - visibleItemCount) <= (firstVisibleItem + visibleThreshold)) {
-            val initialSize = dataList.size
+            val initialSize = itemsCount
             loadMore(adapter.itemCount)
-            val updatedSize = dataList.size
-            recyclerView.post { adapter.notifyItemRangeInserted(initialSize, updatedSize) }
+
+            val updatedSize = itemsCount
+            recyclerView.post {
+                adapter.notifyItemRangeInserted(initialSize, updatedSize)
+                adapter.refresh()
+            }
             loading = true
         }
     }
