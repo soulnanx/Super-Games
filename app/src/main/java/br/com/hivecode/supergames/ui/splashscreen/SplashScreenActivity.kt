@@ -1,15 +1,16 @@
 package br.com.hivecode.supergames.ui.splashscreen
 
 import android.annotation.SuppressLint
-import android.graphics.drawable.AnimatedImageDrawable
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Bundle
 import android.os.Handler
 import android.support.graphics.drawable.AnimatedVectorDrawableCompat
 import android.support.v7.app.AppCompatActivity
-import br.com.hivecode.supergames.R
 import br.com.hivecode.supergames.ui.games.GamesActivity
 import kotlinx.android.synthetic.main.activity_splash_screen.*
+import android.content.Intent
+import br.com.hivecode.supergames.R
+
 
 class SplashScreenActivity : AppCompatActivity() {
 
@@ -48,6 +49,7 @@ class SplashScreenActivity : AppCompatActivity() {
         Handler().postDelayed(
             {
                 val intent = GamesActivity.newIntent(this@SplashScreenActivity)
+                intent.flags = Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TASK
                 this@SplashScreenActivity.startActivity(intent)
             },
             TWO_SECONDS
