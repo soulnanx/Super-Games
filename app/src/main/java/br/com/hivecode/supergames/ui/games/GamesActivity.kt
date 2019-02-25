@@ -13,11 +13,20 @@ import android.widget.Toast
 import br.com.hivecode.supergames.R
 import br.com.hivecode.supergames.data.entity.Item
 import br.com.hivecode.supergames.data.api.response.TopGamesResponse
-import br.com.hivecode.supergames.data.entity.Game
 import kotlinx.android.synthetic.main.activity_games.*
+import kotlinx.android.synthetic.main.games_content.*
+import kotlinx.android.synthetic.main.internet_error_content.*
 import java.lang.Exception
 
 class GamesActivity : AppCompatActivity() {
+
+    companion object {
+        const val ITEM: String = "item"
+
+        fun newIntent(context: Context) : Intent {
+            return Intent(context, GamesActivity::class.java)
+        }
+    }
 
     private lateinit var viewModel : GamesViewModel
     private lateinit var customLayoutManager : GridLayoutManager
@@ -75,6 +84,7 @@ class GamesActivity : AppCompatActivity() {
         var isFirstLoad = offset == 0
 
         if (isFirstLoad){
+            showLoading()
             viewModel.getTopGames(offset,
                 ::setOnlineList,
                 ::setOfflineList,
@@ -89,6 +99,11 @@ class GamesActivity : AppCompatActivity() {
         }
     }
 
+    private fun showLoading() {
+        activity_games_content_loading.visibility = View.VISIBLE
+        activity_games_rv.visibility = View.GONE
+    }
+
     private fun hasNoCache( unit : Unit) {
         showTryAgain()
     }
@@ -96,25 +111,27 @@ class GamesActivity : AppCompatActivity() {
     private fun showTryAgain() {
         activity_games_rv.visibility = View.GONE
         activity_games_content_no_internet.visibility = View.VISIBLE
+        activity_games_content_loading.visibility = View.GONE
     }
 
-    private fun showList() {
+    private fun showGames() {
         activity_games_rv.visibility = View.VISIBLE
         activity_games_content_no_internet.visibility = View.GONE
+        activity_games_content_loading.visibility = View.GONE
     }
 
     private fun showError(ex: Exception) {
         showMessageError("Alguma coisa deu muito errado =(")    }
 
     private fun setOfflineList(games: MutableList<Item>) {
-        showList()
+        showGames()
         customAdapter.clear()
         showMessageError(getString(R.string.offline_results))
         setList(games, true)
     }
 
     private fun setOnlineList(topGamesResponse: TopGamesResponse) {
-        showList()
+        showGames()
         setList(topGamesResponse.top, false)
     }
 
@@ -157,12 +174,12 @@ class OnScrollListener(var layoutManager: GridLayoutManager,
                        val adapter: GamesAdapter,
                        val itemsCount: Int,
                        val loadMore: (Int) -> Unit) : RecyclerView.OnScrollListener() {
-    var previousTotal = 0
-    var loading = true
-    val visibleThreshold = 10
-    var firstVisibleItem = 0
-    var visibleItemCount = 0
-    var totalItemCount = 0
+    private var previousTotal = 0
+    private var loading = true
+    private val visibleThreshold = 10
+    private var firstVisibleItem = 0
+    private var visibleItemCount = 0
+    private var totalItemCount = 0
 
     override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
         super.onScrolled(recyclerView, dx, dy)
