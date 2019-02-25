@@ -14,7 +14,7 @@
                  android:theme="@style/AppTheme">
 
 
-        <activity android:name=".ui.games.GamesActivity"
+        <activity android:name=".ui.splashscreen.SplashScreenActivity"
                   android:theme="@style/AppTheme.NoActionBar"
                   android:screenOrientation="portrait">
             <intent-filter>
@@ -25,6 +25,10 @@
         </activity>
 
         <activity android:name=".ui.games.GamesDetailActivity"
+                  android:theme="@style/AppTheme.NoActionBar"
+                  android:screenOrientation="portrait"/>
+
+        <activity android:name=".ui.games.GamesActivity"
                   android:theme="@style/AppTheme.NoActionBar"
                   android:screenOrientation="portrait"/>
     </application>

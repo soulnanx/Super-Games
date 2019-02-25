@@ -3,4 +3,7 @@
     <string name="offline_results">Você está não está conectado, exibindo resultados offline!</string>
     <string name="games_title">Rank dos 100 melhores jogos da atualidade!</string>
     <string name="try_again">tentar novamente</string>
+    <string name="label_views">visualizações</string>
+    <string name="label_channels">canais</string>
+    <string name="label_title">titulo</string>
 </resources>
