@@ -12,7 +12,7 @@ import android.widget.LinearLayout
 import br.com.hivecode.supergames.R
 import kotlinx.android.synthetic.main.custom_loading.view.*
 
-@RequiresApi(Build.VERSION_CODES.LOLLIPOP)
+
 class CustomLoading @JvmOverloads constructor(
     context: Context,
     attrs: AttributeSet? = null,
@@ -21,6 +21,7 @@ class CustomLoading @JvmOverloads constructor(
 ) : LinearLayout(context, attrs, defStyle, defStyleRes) {
 
     init {
+
         LayoutInflater.from(context)
             .inflate(R.layout.custom_loading, this, true)
 
