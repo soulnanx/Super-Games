@@ -1,8 +1,6 @@
 package br.com.hivecode.supergames.ui.components
 
 import android.content.Context
-import android.os.Build
-import android.support.annotation.RequiresApi
 import android.util.AttributeSet
 import android.view.LayoutInflater
 import android.view.animation.Animation
@@ -13,15 +11,9 @@ import br.com.hivecode.supergames.R
 import kotlinx.android.synthetic.main.custom_loading.view.*
 
 
-class CustomLoading @JvmOverloads constructor(
-    context: Context,
-    attrs: AttributeSet? = null,
-    defStyle: Int = 0,
-    defStyleRes: Int = 0
-) : LinearLayout(context, attrs, defStyle, defStyleRes) {
+class CustomLoading(context: Context?, attrs: AttributeSet? = null) : LinearLayout(context, attrs){
 
     init {
-
         LayoutInflater.from(context)
             .inflate(R.layout.custom_loading, this, true)
 
@@ -41,4 +33,5 @@ class CustomLoading @JvmOverloads constructor(
             it.startAnimation(rotateAnimation)
         }
     }
+
 }

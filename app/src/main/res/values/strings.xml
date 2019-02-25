@@ -6,4 +6,5 @@
     <string name="label_views">visualizações</string>
     <string name="label_channels">canais</string>
     <string name="label_title">titulo</string>
+    <string name="general_error">Alguma coisa deu muito errado =(</string>
 </resources>

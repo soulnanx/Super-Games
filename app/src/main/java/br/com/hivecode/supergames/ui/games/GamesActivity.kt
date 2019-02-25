@@ -21,8 +21,6 @@ import java.lang.Exception
 class GamesActivity : AppCompatActivity() {
 
     companion object {
-        const val ITEM: String = "item"
-
         fun newIntent(context: Context) : Intent {
             return Intent(context, GamesActivity::class.java)
         }
@@ -38,10 +36,14 @@ class GamesActivity : AppCompatActivity() {
         init()
     }
 
+    override fun onStart() {
+        super.onStart()
+        loadGames()
+    }
+
     private fun init() {
         viewModel = ViewModelProviders.of(this).get(GamesViewModel::class.java)
         setRecyclerView()
-        loadGames()
         setEvents()
     }
 
@@ -121,7 +123,7 @@ class GamesActivity : AppCompatActivity() {
     }
 
     private fun showError(ex: Exception) {
-        showMessageError("Alguma coisa deu muito errado =(")    }
+        showMessageError(getString(R.string.general_error))    }
 
     private fun setOfflineList(games: MutableList<Item>) {
         showGames()

@@ -5,6 +5,7 @@ import android.graphics.drawable.AnimatedImageDrawable
 import android.graphics.drawable.AnimatedVectorDrawable
 import android.os.Bundle
 import android.os.Handler
+import android.support.graphics.drawable.AnimatedVectorDrawableCompat
 import android.support.v7.app.AppCompatActivity
 import br.com.hivecode.supergames.R
 import br.com.hivecode.supergames.ui.games.GamesActivity
@@ -30,10 +31,14 @@ class SplashScreenActivity : AppCompatActivity() {
 
     @SuppressLint("NewApi")
     private fun startAnimation() {
-        if (logo.drawable is AnimatedVectorDrawable){
-            val vectorDrawable = logo.drawable as AnimatedVectorDrawable
-            Handler().post {vectorDrawable.start()}
-            Handler().postDelayed({vectorDrawable.start()}, 1000)
+        if (logo.drawable is AnimatedVectorDrawableCompat ) {
+            val drawable = logo.drawable as AnimatedVectorDrawableCompat
+            Handler().post {drawable.start()}
+            Handler().postDelayed({drawable.start()}, 1000)
+        } else {
+            val drawable = logo.drawable as AnimatedVectorDrawable
+            Handler().post {drawable.start()}
+            Handler().postDelayed({drawable.start()}, 1000)
         }
 
     }
