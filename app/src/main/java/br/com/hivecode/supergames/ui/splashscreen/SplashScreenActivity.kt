@@ -10,6 +10,10 @@ import br.com.hivecode.supergames.ui.games.GamesActivity
 import kotlinx.android.synthetic.main.activity_splash_screen.*
 import android.content.Intent
 import br.com.hivecode.supergames.R
+import br.com.hivecode.supergames.data.entity.Person
+import br.com.hivecode.supergames.data.entity.User
+import br.com.hivecode.supergames.data.entity.UserB
+import java.math.BigDecimal
 
 
 class SplashScreenActivity : AppCompatActivity() {
@@ -45,6 +49,25 @@ class SplashScreenActivity : AppCompatActivity() {
     }
 
     private fun navigateToGames() {
+        val userB = UserB.Builder()
+            .address("rua hipodromo")
+            .age(56)
+            .name("jonas")
+            .build()
+
+        val user = User.Builder()
+            .setAddress("rua hipodromo")
+            .setAge(54)
+            .setName("bruno")
+            .create()
+
+        val person = Person.Builder()
+            .job("developer")
+            .name("renan")
+            .salary(BigDecimal(2000))
+            .build()
+
+
 
         Handler().postDelayed(
             {
