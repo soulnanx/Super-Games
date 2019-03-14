@@ -28,6 +28,10 @@
                   android:theme="@style/AppTheme.NoActionBar"
                   android:screenOrientation="portrait"/>
 
+        <activity android:name=".ui.games.ComponentsActivity"
+                  android:theme="@style/AppTheme.NoActionBar"
+                  android:screenOrientation="portrait"/>
+
         <activity android:name=".ui.games.GamesActivity"
                   android:theme="@style/AppTheme.NoActionBar"
                   android:screenOrientation="portrait"/>

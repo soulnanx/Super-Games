@@ -52,28 +52,4 @@ class PlayerHolder(val context: Context,
             }
     }
 
-    fun start() {
-        // Load media.
-        prepare(buildMediaSource(selectMediaToPlay(state.source)))
-        // Start playback when media has buffered enough.
-        playWhenReady = true
-    }
-
-    fun selectMediaToPlay(source: Source): Uri {
-        return when (source) {
-            Source.local_audio -> Uri.parse("asset:///audio/file.mp3")
-            Source.local_video -> Uri.parse("asset:///video/file.mp4")
-            Source.http_audio -> Uri.parse("http://site.../file.mp3")
-            Source.http_video -> Uri.parse("http://site.../file.mp4")
-        }
-    }
-
-    private fun buildMediaSource(uri: Uri): ExtractorMediaSource {
-        return ExtractorMediaSource.Factory(
-            DefaultDataSourceFactory(ctx, "videoapp")).createMediaSource(uri)
-    }
-
-    fun stop() { ... }
-
-    fun release() { ... }
 }

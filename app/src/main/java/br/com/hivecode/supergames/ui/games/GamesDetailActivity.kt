@@ -44,6 +44,14 @@ class GamesDetailActivity : AppCompatActivity() {
         viewModel = ViewModelProviders.of(this).get(GamesViewModel::class.java)
         loadGame()
         fillGraph()
+        setEvents()
+    }
+
+    private fun setEvents() {
+        activity_games_detail_components_btn.setOnClickListener {
+            val intent = ComponentsActivity.newIntent(this@GamesDetailActivity)
+            startActivity(intent)
+        }
     }
 
     private fun fillGraph() {
