@@ -7,6 +7,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.view.animation.AnimationUtils
+import android.view.animation.DecelerateInterpolator
 import android.widget.Button
 import android.widget.TextView
 import br.com.hivecode.supergames.R
@@ -35,6 +36,15 @@ class QuestionComponent(private val ctx: Context?,
         val okBtn = content?.findViewById<Button>(R.id.question_ok)
         okBtn?.setOnClickListener {
             callback?.invoke(answerEditText?.text.toString())
+
+            card.animate()
+                .setStartDelay(500)
+                .scaleX(-10f)
+                .scaleY(-10f)
+
+
+                .setDuration(500)
+                .interpolator = DecelerateInterpolator()
         }
 
         viewGroup?.addView(content)

@@ -3,6 +3,7 @@ package br.com.hivecode.supergames.ui.games
 import android.content.Context
 import android.content.Intent
 import android.os.Bundle
+import android.os.Handler
 import android.support.v7.app.AppCompatActivity
 import android.widget.Toast
 import br.com.hivecode.supergames.R
@@ -34,17 +35,22 @@ class ComponentsActivity : AppCompatActivity(){
     }
 
     private fun createQuestionComponents(list: List<Question>) {
-        list.forEach { question -> createComponent(question) }
+        list.forEachIndexed { index, question ->  createComponent(index, question)}
     }
 
-    private fun createComponent(question: Question) {
-        QuestionComponent.Builder()
-            .withContext(this@ComponentsActivity)
-            .insideOf(activity_games_components_content)
-            .withHint(question.hint)
-            .withTitle(question.title)
-            .withCallback { showValue(question) }
-            .create()
+    private fun createComponent(index : Int, question: Question) {
+
+        Handler().postDelayed({
+            QuestionComponent.Builder()
+                .withContext(this@ComponentsActivity)
+                .insideOf(activity_games_components_content)
+                .withHint(question.hint)
+                .withTitle(question.title)
+                .withCallback { showValue(question) }
+                .create()
+        }, (80 * index).toLong())
+
+
     }
 
     private fun showValue(question: Question) {
